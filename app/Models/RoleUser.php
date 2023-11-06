@@ -7,12 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class RoleUser extends Model
 {
+    protected $table = 'role_user';
+
     public function roles()
     {
-        return $this->hasMany('App\Models\Role');
+        return $this->hasMany(Role::class);
     }
+
     public function users()
     {
-        return $this->hasMany('App\Models\User');
+        return $this->hasMany(User::class);
     }
 }

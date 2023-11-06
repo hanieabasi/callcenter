@@ -10,7 +10,13 @@ use Illuminate\Notifications\Notifiable;
 class Role extends Model
 {
     use HasFactory, Notifiable;
+
     protected $fillable = [
         'title'
     ];
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }

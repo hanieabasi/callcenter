@@ -12,6 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Database\Eloquent\Builder;
 
 class FindResponderJob implements ShouldQueue
 {
@@ -36,16 +37,16 @@ class FindResponderJob implements ShouldQueue
      */
     public function handle()
     {
-        $user = User::whereHas('roles',function(Bilder $joinRoles){
+        $user = User::whereHas('roles',function(Builder $joinRoles){
                 return $joinRoles->whereNotNull('priority')->orderBy('priority');
         }
-        )->whereDosentHave('responding',function(Bilder $joinCalls){
-            return $joinCalls->whereStatus('on_call');
+        )->whereDoesntHave('responder_id',function(Builder $joinCalls){
+            return $joinCalls->where('status','on_call');
         }
         )->first();
         if($user){
             $this->call->update([
-                'status'=>config('constanse.status.on_call'),
+                'status'=>config('constance.status.on_call'),
                 'responder_id'=>$user->id
             ]);
         }

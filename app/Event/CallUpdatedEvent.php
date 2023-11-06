@@ -9,6 +9,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Call;
 
 class CallUpdatedEvent
 {
@@ -21,7 +22,7 @@ class CallUpdatedEvent
      */
 
     public $call;
-    
+
     public function __construct(Call $call)
     {
         $this->call=$call;
